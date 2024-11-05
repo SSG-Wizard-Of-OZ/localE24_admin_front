@@ -2,9 +2,7 @@ import {lazy, Suspense} from "react";
 import {Navigate} from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage.tsx";
 
-
 const Loading = <LoadingPage></LoadingPage>
-
 
 const AppliersIndex = lazy(() => import("../pages/appliers/AppliersIndex.tsx"))
 const AppliersListPage = lazy(() => import("../pages/appliers/AppliersListPage.tsx"))
