@@ -11,7 +11,7 @@ function AppliersListComponent() {
                         <thead>
                         <tr>
                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                입점 신청인
+                                제작자명
                             </th>
                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 upperca se tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
                                 신청 날짜
@@ -29,7 +29,7 @@ function AppliersListComponent() {
                         <tr>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-800 dark:border-gray-700">
                                 <Link to="/appliers/read"
-                                      className="text-gray-900 whitespace-no-wrap dark:text-gray-300">민파라다이스</Link>
+                                      className="text-gray-900 whitespace-no-wrap dark:text-gray-300">김민주</Link>
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-800 dark:border-gray-700">
                                 <p className="text-gray-900 whitespace-no-wrap dark:text-gray-300">2024-10-22</p>
@@ -44,7 +44,7 @@ function AppliersListComponent() {
                                     >
                                             <span aria-hidden
                                                   className="absolute inset-0 bg-purple-200 opacity-50 rounded-full"></span>
-                                        <span className="relative">대기중</span>
+                                        <span className="relative">승인</span>
                                     </button>
                                 </div>
                             </td>
