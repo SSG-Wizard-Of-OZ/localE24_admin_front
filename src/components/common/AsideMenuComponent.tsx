@@ -20,7 +20,6 @@ function AsideMenuComponent() {
     const m1:Depth1MenuProps = {
         mainName:"지역 담당자 관리",
         subMenus:[
-            {name:"지역 담당자 리스트",toPath:"/list"},
             {name:"지역 담당자 리스트",toPath:"/list"}
         ],
         basicPath:"/localManagers",
