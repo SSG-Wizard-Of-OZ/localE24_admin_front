@@ -1,12 +1,15 @@
 import BasicLayout from "../layouts/MainLayout.tsx";
+import CheckAuth from "../components/common/CheckAuth.tsx";
 
 function AdminMainPage() {
     return (
-        <BasicLayout>
-            <div>
+        <CheckAuth>
+            <BasicLayout>
+                <div>
 
-            </div>
-        </BasicLayout>
+                </div>
+            </BasicLayout>
+        </CheckAuth>
     );
 }
 
