@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import AsideMenuComponent from "../components/common/AsideMenuComponent.tsx";
+import useSignin from "../hooks/useSignin.ts";
 
 // const Dashboard = () => (
 //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -24,6 +24,15 @@ import AsideMenuComponent from "../components/common/AsideMenuComponent.tsx";
 
 function BasicLayout({children}: { children: React.ReactNode }) {
 
+    const {doSignout} = useSignin();
+
+    const handleClick = () => {
+        try {
+            doSignout()
+        } catch (error) {
+            console.error('로그아웃 중 오류 발생:', error);
+        }
+    };
 
     return (
         <div className={`flex h-screen bg-gray-50 max-w-[120rem] m-auto`}>
@@ -33,10 +42,10 @@ function BasicLayout({children}: { children: React.ReactNode }) {
             <div className="flex flex-col flex-1 w-full">
                 <header className="z-10 py-4 bg-side-navy">
                     <div className="w-full flex justify-end px-6">
-                        <Link to='/login'
+                        <button onClick={handleClick}
                             className="px-6 py-2 text-white rounded-full bg-neutral-700 hover:bg-neutral-500 focus:outline-none hover:text-black focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 transition-colors duration-300">
-                            Login
-                        </Link>
+                            Logout
+                        </button>
                     </div>
                 </header>
 

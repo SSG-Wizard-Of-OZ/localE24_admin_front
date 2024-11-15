@@ -1,10 +1,11 @@
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {deleteLocalManager, getLocalManagerList} from "../../apis/testLocalManagerAPI.ts";
 import {Ilocalmanager} from "../../types/ilocalmanager.ts";
 import PageComponent from "../common/PageComponent.tsx";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import {IPageresponse} from "../../types/ipageresponse.ts";
+import {deleteLocalManager, getLocalManagerList} from "../../apis/localmanager/testLocalManagerAPI.ts";
+import CheckAuth from "../common/CheckAuth.tsx";
 
 const initialState: IPageresponse<Ilocalmanager> = {
     dtoList: [],
@@ -99,45 +100,47 @@ function LocalManagerListComponent() {
 
 
     return (
-        <div className="py-8">
-            {loading && <LoadingComponent></LoadingComponent>}
-            <div className="flex justify-end">
-                <div className="flex items-center space-x-4"></div>
-            </div>
+        <CheckAuth>
+            <div className="py-8">
+                {loading && <LoadingComponent></LoadingComponent>}
+                <div className="flex justify-end">
+                    <div className="flex items-center space-x-4"></div>
+                </div>
 
 
-            <div className="my-2 flex sm:flex-row flex-col">
-            </div>
-            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                    <table className="min-w-full leading-normal">
-                        <thead>
-                        <tr>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                담당자 회원 번호
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                담당자 이름
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                담당 지역
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                연락처
-                            </th>
-                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-                                action
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {ListLI}
-                        </tbody>
-                    </table>
-                    <PageComponent pageResponse={pageResponse}  ></PageComponent>
+                <div className="my-2 flex sm:flex-row flex-col">
+                </div>
+                <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                    <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                        <table className="min-w-full leading-normal">
+                            <thead>
+                            <tr>
+                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+                                    담당자 회원 번호
+                                </th>
+                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+                                    담당자 이름
+                                </th>
+                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+                                    담당 지역
+                                </th>
+                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+                                    연락처
+                                </th>
+                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+                                    action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {ListLI}
+                            </tbody>
+                        </table>
+                        <PageComponent pageResponse={pageResponse}  ></PageComponent>
+                    </div>
                 </div>
             </div>
-        </div>
+        </CheckAuth>
     );
 }
 
