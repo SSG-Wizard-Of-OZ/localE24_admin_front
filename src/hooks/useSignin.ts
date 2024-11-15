@@ -2,7 +2,6 @@ import {useAppDispatch, useAppSelector} from "./rtk.ts";
 import {postSigninThunk, signout} from "../slices/signinSlice.ts";
 import {Cookies} from "react-cookie";
 import {ISigninParam} from "../types/iadminlogin.ts";
-import {useNavigate} from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -16,14 +15,12 @@ const loadCookie = () => {
 
 const useSignin = () => {
 
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     let adminlogin = useAppSelector(state => state.signin)
 
     if(!adminlogin.adminId){
         adminlogin = loadCookie()
     }
-
 
     const doSignin = (param:ISigninParam) => {
         dispatch(postSigninThunk(param))
@@ -38,7 +35,6 @@ const useSignin = () => {
     const doSignout = () => {
         dispatch(signout())
         cookies.remove("adminlogin", {path:"/"})
-        navigate('/login')
     }
 
     return {adminlogin, doSignin, doSignout}

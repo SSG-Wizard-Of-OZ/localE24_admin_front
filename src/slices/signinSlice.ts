@@ -1,51 +1,47 @@
-import {Cookies} from "react-cookie";
-import {IAdminlogin} from "../types/iadminlogin.ts";
-import {postSignin} from "../apis/adminlogin/adminloginAPI.ts";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { IAdminlogin, ISigninParam } from "../types/iadminlogin.ts";
+import { postSignin } from "../apis/adminlogin/adminloginAPI.ts";
 
-const cookies = new Cookies();
+const initialState: IAdminlogin = {
+    adminId: '',
+    pw: '',
+    accessToken: '',
+    refreshToken: '',
+    adminName: ''
+};
 
-const initalState:IAdminlogin = {
-    adminId : '',
-    pw : '',
-    accessToken : '',
-    refreshToken : '',
-    adminName : ''
-}
-
-export const postSigninThunk = createAsyncThunk('postSigninThunk', postSignin)
+// `postSigninThunk`: 로그인 API 호출
+export const postSigninThunk = createAsyncThunk<IAdminlogin, ISigninParam>(
+    'signin/postSigninThunk',
+    postSignin // API 호출 함수
+);
 
 const signinSlice = createSlice({
     name: "signin",
-    initialState: initalState,
+    initialState,
     reducers: {
         signin: (state, action) => {
-            console.log(state, action);
-            const adminId = action.payload.username;
+            console.log("Signin action", state, action);
+            const { adminId, pw, accessToken, refreshToken, adminName } = action.payload;
 
-            // `state`를 직접 수정합니다.
-            state.adminId = adminId;
-            state.pw = action.payload.pw || state.pw;
-            state.accessToken = action.payload.accessToken || state.accessToken;
-            state.refreshToken = action.payload.refreshToken || state.refreshToken;
-            state.adminName = action.payload.adminName || state.adminName;
-
-            // 쿠키 설정
-            const result = { adminId };
-            cookies.set("adminlogin", JSON.stringify(result), { path: "/", maxAge: 3600 });
+            // 상태 갱신
+            state.adminId = adminId || state.adminId;
+            state.pw = pw || state.pw;
+            state.accessToken = accessToken || state.accessToken;
+            state.refreshToken = refreshToken || state.refreshToken;
+            state.adminName = adminName || state.adminName;
         },
-        signout: (state) => {
-            console.log(state);
-            // signout 시 초기 상태로 리셋
-            return { ...initalState };
+        signout: () => {
+            // 상태 초기화
+            return { ...initialState };
         }
     },
     extraReducers: (builder) => {
         builder
+            // postSigninThunk가 성공적으로 완료되었을 때
             .addCase(postSigninThunk.fulfilled, (state, action) => {
-                console.log("postSigninThunk.fulfilled");
-
-                const result = action.payload; // payload에서 필요한 값을 state에 할당
+                const result = action.payload; // API 응답 데이터
+                console.log("extraReducer) API just called successfully...");
                 if (result) {
                     state.adminId = result.adminId;
                     state.pw = result.pw;
@@ -54,12 +50,19 @@ const signinSlice = createSlice({
                     state.adminName = result.adminName;
                 }
             })
+            // postSigninThunk가 요청 중일 때
             .addCase(postSigninThunk.pending, () => {
                 console.log("postSigninThunk.pending");
+            })
+            // postSigninThunk가 실패했을 때
+            .addCase(postSigninThunk.rejected, () => {
+                console.log("postSigninThunk.rejected");
             });
     }
 });
 
+// 액션 내보내기
 export const { signin, signout } = signinSlice.actions;
 
+// 리듀서 내보내기
 export default signinSlice.reducer;

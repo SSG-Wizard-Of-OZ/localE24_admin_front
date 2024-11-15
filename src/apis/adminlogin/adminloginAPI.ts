@@ -15,9 +15,10 @@ export const postSignin = async (param: ISigninParam): Promise<IAdminlogin> => {
             }
         );
         return result.data;
-    } catch (error) {
-        console.error("postSignin error:", error); // 에러 로그 추가
-        throw error;
+    } catch (exception: any) {
+        console.error(exception.response.data.message); // 에러 로그 추가
+        window.location.href = "/login?error=incorrect"
+        throw exception;
     }
 }
 

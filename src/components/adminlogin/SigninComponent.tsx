@@ -1,36 +1,78 @@
-import {ISigninParam} from "../../types/iadminlogin.ts";
-import {ChangeEvent, useState} from "react";
+import { ISigninParam } from "../../types/iadminlogin.ts";
+import { ChangeEvent, useEffect, useState } from "react";
 import useSignin from "../../hooks/useSignin.ts";
-
+import {useLocation, useNavigate} from "react-router-dom";
 
 const initialState: ISigninParam = {
-    adminId : '',
-    pw : ''
+    adminId: '',
+    pw: ''
 }
 
 function SigninComponent() {
+    const [param, setParam] = useState(initialState)
+    const { doSignin } = useSignin()
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    const [rememberId, setRememberId] = useState(false)
+    const location = useLocation()
+    const navigate = useNavigate()
 
-    const [param, setParam] = useState<ISigninParam>({...initialState})
+    useEffect(() => {
+        const savedId = localStorage.getItem("rememberedAdminId");
+        if (savedId) {
+            setParam((prev) => ({ ...prev, adminId: savedId }));
+            setRememberId(true); // 저장된 ID가 있으면 체크박스를 선택 상태로 유지
+        }
 
-    const {doSignin} = useSignin()
+        const searchParams = new URLSearchParams(location.search);
+        const errorType = searchParams.get("error");
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-       const name:string|undefined = event.target.name;
-       const value:string|undefined = event.target.value;
-       // @ts-expect-error 타입에러
-        param[name] = value
-        setParam({...param})
+        if (errorType === "all" && !errorMessage) {
+            setErrorMessage("로그인 세션이 만료되었습니다. 다시 로그인 해주세요.");
+        } else if (errorType === "incorrect" && !errorMessage) {
+            setErrorMessage("아이디나 패스워드가 틀립니다. 다시 로그인 해주세요.");
+        }
+    }, [location.search, errorMessage]); // errorMessage가 변경될 때만 실행되도록 설정
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setParam((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        doSignin(param)
-    }
+        try {
+            await doSignin(param);
+
+            // "아이디 저장"이 선택되었으면 로컬 스토리지에 adminId 저장
+            if (rememberId) {
+                localStorage.setItem("rememberedAdminId", param.adminId);
+            } else {
+                localStorage.removeItem("rememberedAdminId"); // 체크 해제 시 로컬 스토리지에서 삭제
+            }
+
+            // 로그인 성공 후, 메인 페이지로 리디렉션
+            navigate("/main")
+        } catch (exception:any) {
+            // 로그인 실패 시 error 처리 (이미 처리된 메시지 출력)
+            console.log(exception.response?.data?.message || exception.message);
+        }
+    };
+
+    const toggleRememberId = () => {
+        setRememberId((prev) => !prev);
+    };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden p-8">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+            <img className="w-28" src="/src/assets/img/logo.png" />
+            <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg overflow-hidden p-8">
                 <h1 className="text-3xl font-extrabold text-gray-800 text-center mb-8">관리자 로그인</h1>
+
+                {errorMessage && (
+                    <div className="text-red-500 text-center mb-6">
+                        {errorMessage}
+                    </div>
+                )}
 
                 <form>
                     <div className="mb-6">
@@ -56,12 +98,13 @@ function SigninComponent() {
 
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center space-x-2">
-                            <input type="radio" name="remember" className="text-blue-500"/>
+                            <input
+                                type="checkbox"
+                                checked={rememberId}
+                                onChange={toggleRememberId}
+                                className="text-blue-500"
+                            />
                             <label className="text-gray-700">아이디 저장</label>
-                        </div>
-                        <div className="flex space-x-6 text-blue-500 text-lg font-medium hover:underline">
-                            <p>아이디 찾기</p>
-                            <p>비밀번호 찾기</p>
                         </div>
                     </div>
 
@@ -74,8 +117,7 @@ function SigninComponent() {
                 </form>
             </div>
         </div>
-    )
-        ;
+    );
 }
 
 export default SigninComponent;
