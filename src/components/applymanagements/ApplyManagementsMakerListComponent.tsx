@@ -1,12 +1,12 @@
-import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {IPageResponse} from "../../types/ipageresponse.ts";
-import {getMakerList} from "../../apis/maker/makerAPI.ts";
-import {IMaker} from "../../types/maker/maker.ts";
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { IPageResponse } from "../../types/ipageresponse.ts";
+import { IMaker } from "../../types/maker/maker.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import PageComponent from "../common/PageComponent.tsx";
+import {getApplyMakerList} from "../../apis/applymanagements/maker/applymanagementmakerAPI.ts";
 
-const initialState : IPageResponse<IMaker> = {
+const initialState: IPageResponse<IMaker> = {
     dtoList: [],
     pageNumList: [],
     pageRequestDTO: { page: 1, size: 10 },
@@ -17,23 +17,22 @@ const initialState : IPageResponse<IMaker> = {
     nextPage: 0,
     current: 1,
     totalPage: 0,
-}
+};
 
-const formatter = new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+const formatter = new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
 });
 
-
 function ApplyManagementsMakerListComponent() {
-    const [query] = useSearchParams()
+    const [query] = useSearchParams();
 
-    const page: number = Number(query.get("page")) || 1
-    const size: number = Number(query.get("size")) || 10
+    const page: number = Number(query.get("page")) || 1;
+    const size: number = Number(query.get("size")) || 10;
 
-    const [loading, setLoading] = useState<boolean>(false)
-    const [pageResponse, setPageResponse] = useState<IPageResponse<IMaker>>(initialState)
+    const [loading, setLoading] = useState<boolean>(false);
+    const [pageResponse, setPageResponse] = useState<IPageResponse<IMaker>>(initialState);
 
     const navigate = useNavigate();
 
@@ -41,27 +40,31 @@ function ApplyManagementsMakerListComponent() {
 
     const moveToRead = (makerBizNo: string | undefined) => {
         navigate({
-            pathname: `/maker/read/${makerBizNo}`,
-            search:`${queryStr}`
-        })
-    }
+            pathname: `/applyManagements/maker/read/${makerBizNo}`,
+            search: `${queryStr}`,
+        });
+    };
 
     useEffect(() => {
-        setLoading(true)
-        getMakerList(page, size).then(data => {
-            setPageResponse(data)
-
+        setLoading(true);
+        getApplyMakerList(page, size).then((data) => {
+            setPageResponse(data);
             setTimeout(() => {
-                setLoading(false)
-            }, 600)
-        })
-    }, [page, size])
+                setLoading(false);
+            }, 600);
+        });
+    }, [page, size]);
 
     const listLI = pageResponse.dtoList.map((maker: IMaker) => {
-        const {makerBizNo, makerName, modDate, makerStatus} = maker
+        const { makerBizNo, makerName, modDate, makerStatus } = maker;
 
-        // modDate가 유효한 날짜인지 확인하고, 유효하지 않은 경우 "날짜 없음" 표시
         const formattedDate = modDate ? formatter.format(new Date(modDate)) : "날짜 없음";
+
+        // makerStatus 따른 배경 색상 설정
+        const statusBgColor =
+            makerStatus === "PENDING" ? "bg-purple-200" :
+                makerStatus === "ACCEPTED" ? "bg-green-200" :
+                    "bg-red-200";
 
         return (
             <li
@@ -74,19 +77,20 @@ function ApplyManagementsMakerListComponent() {
                 <span className="text-gray-900 dark:text-gray-300">{formattedDate}</span>
                 <span className="flex justify-center">
                 <button
-                    className="relative inline-block px-3 py-1 font-semibold text-txt-grey leading-tight transition ease-in-out duration-200 focus:outline-none">
-                    <span aria-hidden className="absolute inset-0 bg-purple-200 opacity-50 rounded-full"></span>
+                    className={`relative inline-block px-3 py-1 font-semibold leading-tight transition ease-in-out duration-200 rounded-full ${statusBgColor}`}
+                >
                     <span className="relative">{makerStatus}</span>
                 </button>
             </span>
             </li>
-        )
-    })
+        );
+    });
+
+
 
     return (
         <div className="py-8">
             {loading && <LoadingComponent></LoadingComponent>}
-
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                     <div className="min-w-full leading-normal">
@@ -104,8 +108,6 @@ function ApplyManagementsMakerListComponent() {
                     </div>
                 </div>
             </div>
-
-
             <PageComponent pageResponse={pageResponse}></PageComponent>
         </div>
     );

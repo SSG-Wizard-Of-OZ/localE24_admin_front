@@ -81,11 +81,11 @@ function AsideMenuComponent() {
         mainName:"이벤트 신청 관리",
         subMenus:[
             {name:"이벤트 신청 리스트",toPath:"/event/list"},
-            {name:"제작자 신청 리스트",toPath:"/producer/list"},
+            {name:"제작자 신청 리스트",toPath:"/maker/list"},
             {name:"상품 신청 리스트",toPath:"/product/list"},
             {name:"지점 신청 리스트",toPath:"/store/list"}
         ],
-        basicPath:"/applymanagements",
+        basicPath:"/applyManagements",
         iconName: "product.png"
     }
 

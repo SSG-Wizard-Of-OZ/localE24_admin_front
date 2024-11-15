@@ -3,7 +3,7 @@ export interface IProduct {
     productNo ?: number,
     productName ?: string,
     productDescription ?: string,
-    productStatus ?:number,
+    productStatus ?:string,
 
     makerName ?: string,
 

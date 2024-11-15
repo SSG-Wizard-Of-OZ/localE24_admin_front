@@ -10,8 +10,8 @@ const ApplyManagementsEventListPage = lazy(() => import("../pages/applymanagemen
 const ApplyManagementsEventReadPage = lazy(() => import("../pages/applymanagements/ApplyManagementsEventReadPage.tsx"));
 const ApplyManagementsProductListPage = lazy(() => import("../pages/applymanagements/ApplyManagementsProductListPage"));
 const ApplyManagementsProductReadPage = lazy(() => import("../pages/applymanagements/ApplyManagementsProductReadPage"));
-const ApplyManagementsProducerListPage = lazy(() => import("../pages/applymanagements/ApplyManagementsMakerListPage.tsx"));
-const ApplyManagementsProducerReadPage = lazy(() => import("../pages/applymanagements/ApplyManagementsMakerReadPage.tsx"));
+const ApplyManagementsMakerListPage = lazy(() => import("../pages/applymanagements/ApplyManagementsMakerListPage.tsx"));
+const ApplyManagementsMakerReadPage = lazy(() => import("../pages/applymanagements/ApplyManagementsMakerReadPage.tsx"));
 const ApplyManagementsStoreListPage = lazy(() => import("../pages/applymanagements/ApplyManagementsStoreListPage"));
 const ApplyManagementsStoreReadPage = lazy(() => import("../pages/applymanagements/ApplyManagementsStoreReadPage"));
 
@@ -37,16 +37,16 @@ const applymanagementsRouter ={
             element: <Suspense fallback={Loading}><ApplyManagementsProductListPage/></Suspense>
         },
         {
-            path: "product/read",
+            path: "product/read/:productNo",
             element: <Suspense fallback={Loading}><ApplyManagementsProductReadPage/></Suspense>
         },
         {
-            path: "producer/list",
-            element: <Suspense fallback={Loading}><ApplyManagementsProducerListPage/></Suspense>
+            path: "maker/list",
+            element: <Suspense fallback={Loading}><ApplyManagementsMakerListPage/></Suspense>
         },
         {
-            path: "producer/read",
-            element: <Suspense fallback={Loading}><ApplyManagementsProducerReadPage/></Suspense>
+            path: "maker/read/:makerBizNo",
+            element: <Suspense fallback={Loading}><ApplyManagementsMakerReadPage/></Suspense>
         },
         {
             path: "store/list",

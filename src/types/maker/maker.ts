@@ -8,7 +8,7 @@ export interface IMaker {
     makerAddr?: string;
     makerAddrDetail?: string;
 
-    makerStatus?: number;
+    makerStatus?: string;
 
     attachFileNames?: string[];
 
@@ -17,4 +17,7 @@ export interface IMaker {
     modDate?: Date;
 
     creator?: string;
+
+    startDate ?: Date;
+    endDate ?: Date;
 }

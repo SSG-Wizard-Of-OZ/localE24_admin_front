@@ -9,7 +9,6 @@ const initialState : IProduct = {
     productNo: 0,
     productName: "",
     productDescription : "",
-    productStatus : 0,
     makerName : "",
     categoriesNo: [],
     categoriesName : [],
@@ -45,8 +44,8 @@ function ProductReadComponent() {
     }, [productNo]);
 
     return (
-        <div className="pt-20 pb-10 max-w-lg mx-auto">
-            {loading && <LoadingComponent />}
+        <div className="pt-10 pb-10 max-w-screen-xl mx-auto">
+            {loading && <LoadingComponent/>}
 
             <div className="border rounded-2xl p-10 bg-white shadow-md space-y-6">
                 <img
@@ -58,68 +57,41 @@ function ProductReadComponent() {
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">상품코드</label>
-                    <input
-                        type="text"
-                        value={product.productNo}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">{product.productNo}</span>
                 </div>
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">상품명</label>
-                    <input
-                        type="text"
-                        value={product.productName}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">{product.productName}</span>
                 </div>
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">상품 내용</label>
-                    <input
-                        type="text"
-                        value={product.productDescription}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">{product.productDescription}</span>
                 </div>
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">제작자명</label>
-                    <input
-                        type="text"
-                        value={product.makerName}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">{product.makerName}</span>
                 </div>
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">카테고리 번호</label>
-                    <input
-                        type="text"
-                        value={product.categoriesNo ? product.categoriesNo.join(", ") : "없음"}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">
+                        {product.categoriesNo ? product.categoriesNo.join(", ") : "없음"}
+                    </span>
                 </div>
 
                 <div>
                     <label className="text-sm font-medium text-gray-700">카테고리 이름</label>
-                    <input
-                        type="text"
-                        value={product.categoriesName ? product.categoriesName.join(", ") : "없음"}
-                        readOnly
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                    <span className="block mt-1 w-full px-3 py-2 border rounded-md">
+                        {product.categoriesName ? product.categoriesName.join(", ") : "없음"}
+                    </span>
                 </div>
 
                 <div>
                     <label htmlFor="portfolio" className="text-sm font-medium text-gray-700">상품 사진</label>
-                    <div
-                        className="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <div className="mt-1 w-full px-3 py-2 border rounded-md">
                         {product.attachFileNames && product.attachFileNames.length > 0 ? (
                             product.attachFileNames.map((fileName, index) => (
                                 <p key={index}>{fileName}</p>
@@ -129,7 +101,6 @@ function ProductReadComponent() {
                         )}
                     </div>
                 </div>
-
             </div>
         </div>
     );

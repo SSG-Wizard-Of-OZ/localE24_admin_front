@@ -23,10 +23,12 @@ export const getMakerOne = async (makerBizNo : string): Promise<IMaker> => {
     return res.data;
 }
 
-// 제작자 상태 변경
-export const updateMakerStatus = async (makerBizNo: string, makerStatus:number): Promise<void> => {
-    await axios.put(`${host}/modify`, {
-        makerBizNo,
-        makerStatus,
-    });
+// 제작자 검색
+export const searchMakerList = async (page?:number, size?:number, makerName ?: string, startDate ?: string, endDate ?: string) : Promise<IPageResponse<IMaker>> => {
+
+    const params = {page: String(page), size: String(size), makerName, startDate, endDate}
+
+    const res = await axios.get(`${host}/search`, {params})
+    return res.data;
 }
+
