@@ -1,6 +1,6 @@
-import {IPageResponse} from "../../types/ipageresponse.ts";
 import axios from "axios";
-import {IProduct} from "../../types/product/product.ts";
+import {IPageResponse} from "../../types/ipageresponse.ts";
+import {IProduct} from "../../types/iproduct.ts";
 
 const host = 'http://localhost:8080/api/product';
 

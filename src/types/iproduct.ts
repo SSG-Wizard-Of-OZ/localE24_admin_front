@@ -3,7 +3,7 @@ export interface IProduct {
     productNo ?: number,
     productName ?: string,
     productDescription ?: string,
-    productStatus ?:string,
+    productStatus ?:number,
 
     makerName ?: string,
 
@@ -20,6 +20,5 @@ export interface IProduct {
 
     creator?: string;
 
-    startDate ?: Date;
-    endDate ?: Date;
+
 }

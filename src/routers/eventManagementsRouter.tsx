@@ -21,7 +21,7 @@ const eventManagementsRouter = {
             element: <Suspense fallback={Loading}><EventManagementListPage/></Suspense>
         },
         {
-            path: "read",
+            path: "read/:eventNo",
             element: <Suspense fallback={Loading}><EventManagementReadPage/></Suspense>
         }
     ]

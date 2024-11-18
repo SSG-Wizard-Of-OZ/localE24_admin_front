@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {IPageResponse} from "../../types/ipageresponse.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import PageComponent from "../common/PageComponent.tsx";
-import {IProduct} from "../../types/product/product.ts";
+import {IProduct} from "../../types/iproduct.ts";
 import {getProductList, searchProduct} from "../../apis/product/productAPI.ts";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
