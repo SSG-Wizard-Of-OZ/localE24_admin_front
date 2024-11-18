@@ -85,7 +85,7 @@ function AsideMenuComponent() {
             {name:"상품 신청 리스트",toPath:"/product/list"},
             {name:"지점 신청 리스트",toPath:"/store/list"}
         ],
-        basicPath:"/applymanagements",
+        basicPath:"/applyManagements",
         iconName: "product.png"
     }
 
