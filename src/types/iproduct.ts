@@ -20,5 +20,6 @@ export interface IProduct {
 
     creator?: string;
 
-
+    startDate ?: Date;
+    endDate ?: Date;
 }

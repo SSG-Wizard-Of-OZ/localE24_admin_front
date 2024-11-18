@@ -1,12 +1,12 @@
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Istore } from "../../types/istore.ts";
-import { IPageresponse } from "../../types/ipageresponse.ts";
+import { IPageResponse } from "../../types/ipageresponse.ts";
 import { useEffect, useState } from "react";
 import {getStoreList, searchStoreList} from "../../apis/store/storeAPI.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import PageComponent from "../common/PageComponent.tsx";
 
-const initialState: IPageresponse<Istore> = {
+const initialState: IPageResponse<Istore> = {
     dtoList: [],
     pageNumList: [],
     pageRequestDTO: { page: 1, size: 10 },
@@ -26,7 +26,7 @@ function EventLocationsListComponent() {
     const size: number = Number(query.get("size")) || 10;
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [pageResponse, setPageResponse] = useState<IPageresponse<Istore>>(initialState);
+    const [pageResponse, setPageResponse] = useState<IPageResponse<Istore>>(initialState);
     const navigate = useNavigate();
     const [storeName, setStoreName] = useState<string>("");
     const [isRentAvailable, setIsRentAvailable] = useState<boolean>(false);
