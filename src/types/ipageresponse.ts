@@ -1,5 +1,5 @@
 
-export interface IPageresponse<E> {
+export interface IPageResponse<E> {
     dtoList: E[];
     pageNumList: number[];
     pageRequestDTO: {
@@ -13,4 +13,5 @@ export interface IPageresponse<E> {
     nextPage: number;
     current: number;
     totalPage: number;
+
 }

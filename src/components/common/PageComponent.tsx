@@ -1,10 +1,10 @@
 import {ReactElement} from "react";
 import {useSearchParams} from "react-router-dom";
-import {IPageresponse} from "../../types/ipageresponse.ts";
+import {IPageResponse} from "../../types/ipageresponse.ts";
 
 
 interface Props<E> {
-    pageResponse:IPageresponse<E>
+    pageResponse:IPageResponse<E>
 }
 
 const makeArr = (from:number, to:number): number[] => {
@@ -23,8 +23,8 @@ function PageComponent<E>({pageResponse}: Props<E>): ReactElement {
     const tempLast: number = Math.ceil(current / 10.0) * 10
     const startPage: number = tempLast - 9
     const endPage: number = startPage + pageResponse.totalPage -1
-    const prev:boolean = current !== 1
-    const next:boolean = tempLast == current
+    const prev: boolean = current !== 1
+    const next: boolean = tempLast == current
 
     const pageNums:number[] = makeArr(startPage, endPage)
 

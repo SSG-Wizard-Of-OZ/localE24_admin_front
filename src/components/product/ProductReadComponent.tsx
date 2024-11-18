@@ -1,24 +1,23 @@
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import back from "../../assets/img/icons/back.png";
 import {IProduct} from "../../types/product/product.ts";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {getProductOne} from "../../apis/product/productAPI.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
-import {getApplyProductOne, updateProductStatus} from "../../apis/applymanagements/product/applymanagementproductAPI.ts";
 
 const initialState : IProduct = {
     productNo: 0,
     productName: "",
     productDescription : "",
-    productStatus : "PENDING",
     makerName : "",
     categoriesNo: [],
     categoriesName : [],
     attachFileNames : []
 }
 
-function ApplyManagementsProductReadComponent() {
-    const {productNo} = useParams();
+function ProductReadComponent() {
 
+    const {productNo} = useParams();
     const [product, setProduct] = useState(initialState);
     const [loading, setLoading] = useState(false);
 
@@ -30,31 +29,15 @@ function ApplyManagementsProductReadComponent() {
 
     const handleBack = () => {
         navigate({
-            pathname: `/applyManagements/product/list`,
+            pathname: `/product/list`,
             search:`${queryString}`
         })
     };
 
-    const handleProductStatusChange = async (status: string) => {
-        if (!productNo) return;
-        setLoading(true);
-        try {
-            console.log(`Changing product status for productNo: ${productNo} to status: ${status}`);
-            await updateProductStatus(Number(productNo), status);
-            navigate(`/applyManagements/product/list`);
-        } catch (error) {
-            console.error("에러 발생하였습니다.", error);
-            alert("상태 변경에 실패했습니다.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-
     useEffect(() => {
         const proNO = Number(productNo)
         setLoading(true)
-        getApplyProductOne(proNO).then(res => {
+        getProductOne(proNO).then(res => {
             setProduct(res)
             setLoading(false)
         });
@@ -62,7 +45,7 @@ function ApplyManagementsProductReadComponent() {
 
     return (
         <div className="pt-10 pb-10 max-w-screen-xl mx-auto">
-            {loading && <LoadingComponent />}
+            {loading && <LoadingComponent/>}
 
             <div className="border rounded-2xl p-10 bg-white shadow-md space-y-6">
                 <img
@@ -146,24 +129,9 @@ function ApplyManagementsProductReadComponent() {
                         )}
                     </div>
                 </div>
-
-                <div className="flex gap-4 justify-center">
-                    <button
-                        onClick={() => handleProductStatusChange("ACCEPTED")}
-                        className="flex-1 max-w-xs px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-                    >
-                        승인
-                    </button>
-                    <button
-                        onClick={() => handleProductStatusChange("REJECTED")}
-                        className="flex-1 max-w-xs px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                    >
-                        거절
-                    </button>
-                </div>
             </div>
         </div>
     );
 }
 
-export default ApplyManagementsProductReadComponent;
+export default ProductReadComponent;

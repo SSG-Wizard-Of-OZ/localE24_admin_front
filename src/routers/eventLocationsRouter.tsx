@@ -23,7 +23,7 @@ const eventLocationsRouter = {
             element: <Suspense fallback={Loading}><EventLocationsListPage /></Suspense>
         },
         {
-            path: "read" ,
+            path: "read/:storeNo" ,
             element: <Suspense fallback={Loading}><EventLocationsReadPage /></Suspense>
         }
     ]
