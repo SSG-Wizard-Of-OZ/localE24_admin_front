@@ -112,9 +112,37 @@ function ApplyManagementsMakerReadComponent() {
                     <label className="text-sm font-medium text-gray-700">포트폴리오 파일</label>
                     <div className="mt-1 w-full px-3 py-2 border rounded-md">
                         {maker.attachFileNames && maker.attachFileNames.length > 0 ? (
-                            maker.attachFileNames.map((fileName, index) => (
-                                <p key={index}>{fileName}</p>
-                            ))
+                            maker.attachFileNames.map((fileName, index) => {
+                                // 파일 이름만 추출 (절대 경로의 경우 마지막 '/' 뒤 부분만 사용)
+                                const actualFileName = fileName.split('_').pop() ?? '';
+                                const linkFileName = fileName.split('/').pop() ?? '';
+
+                                // 원본 파일 경로 생성
+                                const originalFilePath = `http://localhost/${linkFileName}`;
+
+                                // 이미지 확장자 체크
+                                const isImage = linkFileName.match(/\.(jpg|jpeg|png|gif)$/i);
+
+                                return (
+                                    <p key={index}>
+                                        {isImage ? (
+                                            // 이미지 파일일 경우 <img> 태그로 썸네일 미리보기 표시, 클릭 시 원본 이미지로 이동
+                                            <a href={originalFilePath} target="_blank" rel="noopener noreferrer">
+                                                <img
+                                                    src={`http://localhost/s_${linkFileName}`} // 썸네일 이미지 경로
+                                                    alt={actualFileName}
+                                                    style={{maxWidth: "200px", maxHeight: "200px", cursor: "pointer"}}
+                                                />
+                                            </a>
+                                        ) : (
+                                            // 이미지가 아닐 경우 파일 이름만 표시
+                                            <a href={originalFilePath} target="_blank" rel="noopener noreferrer">
+                                                {actualFileName}
+                                            </a>
+                                        )}
+                                    </p>
+                                );
+                            })
                         ) : (
                             <p>포트폴리오 파일이 없습니다.</p>
                         )}

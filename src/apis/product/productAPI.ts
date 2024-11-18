@@ -20,3 +20,12 @@ export const getProductOne = async (productNo:number): Promise<IProduct> => {
 
     return res.data;
 }
+
+// 상품 검색
+export const searchProduct = async (page?:number, size?:number, productName?: string, startDate ?:string, endDate ?: string ): Promise<IPageResponse<IProduct>> => {
+
+    const params = {page: String(page), size: String(size), productName, startDate, endDate}
+
+    const res = await axios.get(`${host}/search`, {params})
+    return res.data;
+}

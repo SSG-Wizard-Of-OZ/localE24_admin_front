@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPageResponse } from "../../types/ipageresponse.ts";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import { getMakerList, searchMakerList } from "../../apis/maker/makerAPI.ts";
 import { IMaker } from "../../types/maker/maker.ts";
 import PageComponent from "../common/PageComponent.tsx";
@@ -40,6 +40,15 @@ function MakerListComponent() {
 
     const navigate = useNavigate();
 
+    const queryStr = createSearchParams({page:String(page),size:String(size)})
+
+    const moveToRead = (makerBizNo: string | undefined) => {
+        navigate({
+            pathname: `/maker/read/${makerBizNo}`,
+            search:`${queryStr}`
+        })
+    }
+
     useEffect(() => {
         setLoading(true);
         getMakerList(page, size).then((data) => {
@@ -77,7 +86,7 @@ function MakerListComponent() {
             <li
                 key={makerBizNo}
                 className="grid grid-cols-4 gap-4 px-5 py-5 border-b border-gray-200 bg-white text-sm dark:bg-gray-800 dark:border-gray-700"
-                onClick={() => navigate(`/maker/read/${makerBizNo}`)}
+                onClick={() => moveToRead(makerBizNo)}
             >
                 <span>{makerBizNo}</span>
                 <span>{makerName}</span>
