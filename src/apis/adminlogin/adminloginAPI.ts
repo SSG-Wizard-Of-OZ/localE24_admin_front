@@ -1,11 +1,11 @@
 import {IAdminlogin, ISigninParam} from "../../types/iadminlogin.ts";
-import jwtAxios from "../../util/jwtUtil.ts";
+import axios from "axios";
 
 const host = 'http://10.10.10.177:8080/api/adminlogin'
 
 export const postSignin = async (param: ISigninParam): Promise<IAdminlogin> => {
     try {
-        const result = await jwtAxios.post(
+        const result = await axios.post(
             `${host}/makeToken`,
             JSON.stringify(param), // 요청 본문을 명시적으로 JSON 문자열로 보내기
             {
@@ -27,7 +27,7 @@ export const refreshRequest = async (accessToken: string, refreshToken: string):
     const params = new URLSearchParams();
     params.append('refreshToken', refreshToken);
 
-    const result = await jwtAxios.post(
+    const result = await axios.post(
         `${host}/refreshToken`, params,
         {
             headers: {
